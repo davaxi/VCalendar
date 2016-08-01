@@ -565,6 +565,45 @@ class VCalendar_Test extends PHPUnit_Framework_TestCase
         $dirname = dirname(__FILE__);
         $expected = file_get_contents($dirname . '/assets/invite.ics');
         $this->assertEquals($expected, $value);
+    }
 
+    /**
+     * @runInSeparateProcess
+     */
+    public function testStream()
+    {
+        $this->VCalendar->setProcess('Davaxi', 'Davaxi Events', 'v1.0', 'EN');
+        $this->VCalendar->setMethod('PUBLISH');
+        $this->VCalendar->setCalendarName('Events - Davaxi');
+        $this->VCalendar->setTimeZone('Europe/Paris');
+        $this->VCalendar->setStartDateTime('2016-06-10 10:00:00');
+        $this->VCalendar->setEndDateTime('2016-06-10 14:00:00');
+        $this->VCalendar->setStatus('CONFIRMED');
+        $this->VCalendar->setTitle('My Event Title');
+        $this->VCalendar->setDescription('My Event Description');
+        $this->VCalendar->setOrganizer('Davaxi', 'root@domain.fr');
+        $this->VCalendar->setClass('PUBLIC');
+        $this->VCalendar->setCreatedDateTime('2016-06-01 00:00:00');
+        $this->VCalendar->setLocation('Paris', 48.874086, 2.345640);
+        $this->VCalendar->setUrl('https://www.domain.com/');
+        $this->VCalendar->setSequence(4);
+        $this->VCalendar->setLastUpdatedDateTime('2016-06-01 01:00:00');
+        $this->VCalendar->setCategories(array('ENTERTAINMENT'));
+        $this->VCalendar->setUID('event_davaxi_1');
+        $this->VCalendar->addAttendee('Guest', 'REQ-PARTICIPANT', 'guest@domain.com',false);
+
+        ob_start();
+        $this->VCalendar->stream();
+        $value = ob_get_clean();
+
+        $headers = xdebug_get_headers();
+        $this->assertContains('Content-type: application/ics; method=PUBLISH; charset=UTF-8', $headers);
+        $this->assertContains('Pragma: no-cache', $headers);
+        $this->assertContains('Expires: 0', $headers);
+        $this->assertContains('Content-Disposition: attachment; filename=invite.ics', $headers);
+
+        $dirname = dirname(__FILE__);
+        $expected = file_get_contents($dirname . '/assets/invite.ics');
+        $this->assertEquals($expected, $value);
     }
 }

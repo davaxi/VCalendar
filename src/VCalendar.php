@@ -470,15 +470,17 @@ class VCalendar
         return date('Ymd\THis', $dateTime);
     }
 
-    public function stream($fileName)
+    /**
+     * Stream file
+     */
+    public function stream()
     {
         header("Content-type: application/ics; method=PUBLISH; charset=UTF-8");
-        header(sprintf("Content-Disposition: attachment; filename=%s.ics", $fileName));
+        header(sprintf("Content-Disposition: attachment; filename=%s", $this->getFilename()));
         header("Pragma: no-cache");
         header("Expires: 0");
 
         echo $this->getContent();
-        exit();
     }
 
 }
