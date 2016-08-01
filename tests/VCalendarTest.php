@@ -596,11 +596,13 @@ class VCalendar_Test extends PHPUnit_Framework_TestCase
         $this->VCalendar->stream();
         $value = ob_get_clean();
 
-        $headers = xdebug_get_headers();
-        $this->assertContains('Content-type: application/ics; method=PUBLISH; charset=UTF-8', $headers);
-        $this->assertContains('Pragma: no-cache', $headers);
-        $this->assertContains('Expires: 0', $headers);
-        $this->assertContains('Content-Disposition: attachment; filename=invite.ics', $headers);
+        if (function_exists('xdebug_get_headers')) {
+            $headers = xdebug_get_headers();
+            $this->assertContains('Content-type: application/ics; method=PUBLISH; charset=UTF-8', $headers);
+            $this->assertContains('Pragma: no-cache', $headers);
+            $this->assertContains('Expires: 0', $headers);
+            $this->assertContains('Content-Disposition: attachment; filename=invite.ics', $headers);
+        }
 
         $dirname = dirname(__FILE__);
         $expected = file_get_contents($dirname . '/assets/invite.ics');
