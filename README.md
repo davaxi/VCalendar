@@ -8,6 +8,9 @@ PHP Class to generate VCalendar (ics) file. Compatible with GMail Calendar attac
 [![Latest Unstable Version](https://poser.pugx.org/davaxi/vcalendar/v/unstable)](//packagist.org/packages/davaxi/vcalendar)
 [![License](https://poser.pugx.org/davaxi/vcalendar/license)](https://packagist.org/packages/davaxi/vcalendar)
 [![composer.lock available](https://poser.pugx.org/davaxi/vcalendar/composerlock)](https://packagist.org/packages/davaxi/vcalendar)
+[![Code Climate](https://codeclimate.com/github/davaxi/VCalendar/badges/gpa.svg)](https://codeclimate.com/github/davaxi/VCalendar)
+[![Test Coverage](https://codeclimate.com/github/davaxi/VCalendar/badges/coverage.svg)](https://codeclimate.com/github/davaxi/VCalendar/coverage)
+[![Issue Count](https://codeclimate.com/github/davaxi/VCalendar/badges/issue_count.svg)](https://codeclimate.com/github/davaxi/VCalendar)
 
 ## Installation
 
