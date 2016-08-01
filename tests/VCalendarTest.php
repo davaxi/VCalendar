@@ -419,15 +419,15 @@ class VCalendar_Test extends PHPUnit_Framework_TestCase
 
     public function testGenerateUID()
     {
-        $value = $this->VCalendar->getAttribute('UID');
+        $value = $this->VCalendar->getAttribute('uid');
         $this->assertEquals('', $value);
 
         $this->VCalendar->generateUID();
-        $value = $this->VCalendar->getAttribute('UID');
+        $value = $this->VCalendar->getAttribute('uid');
         $this->assertNotEquals('', $value);
 
         $this->VCalendar->generateUID();
-        $secondValue = $this->VCalendar->getAttribute('UID');
+        $secondValue = $this->VCalendar->getAttribute('uid');
         $this->assertNotEquals('', $secondValue);
         $this->assertNotEquals($value, $secondValue);
     }
@@ -436,7 +436,7 @@ class VCalendar_Test extends PHPUnit_Framework_TestCase
     {
         $expected = 'PersonalUID';
         $this->VCalendar->setUID($expected);
-        $value = $this->VCalendar->getAttribute('UID');
+        $value = $this->VCalendar->getAttribute('uid');
         $this->assertEquals($expected, $value);
     }
 

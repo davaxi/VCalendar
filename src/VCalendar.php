@@ -136,7 +136,7 @@ class VCalendar
     /**
      * @var string
      */
-    protected $UID;
+    protected $uid;
 
     /**
      * VCalendar constructor.
@@ -334,15 +334,15 @@ class VCalendar
      */
     public function generateUID()
     {
-        $this->UID = date('Ymd') . 'T' . date('His') . '-' . rand();
+        $this->uid = date('Ymd') . 'T' . date('His') . '-' . rand();
     }
 
     /**
-     * @param $UID
+     * @param $uid
      */
-    public function setUID($UID)
+    public function setUID($uid)
     {
-        $this->UID = $UID;
+        $this->uid = $uid;
     }
 
     /**
@@ -451,7 +451,7 @@ class VCalendar
             );
         }
         $result[] = "TRANSP:OPAQUE";
-        $result[] = sprintf('UID:%s', $this->UID);
+        $result[] = sprintf('UID:%s', $this->uid);
         $result[] = 'END:VEVENT';
         $result[] = 'END:VCALENDAR';
 
