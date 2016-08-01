@@ -194,10 +194,7 @@ class VCalendar
      */
     public function setOrganizer($organizerName, $organizerEmail)
     {
-        if (filter_var($organizerEmail, FILTER_VALIDATE_EMAIL) == false) {
-            throw new \InvalidArgumentException('Invalid organizer email: ' . $organizerEmail);
-        }
-        else if (preg_match('/@[a-zA-Z0-9\-]+$/', $organizerEmail)) {
+        if (filter_var($organizerEmail, FILTER_VALIDATE_EMAIL) === false || preg_match('/@[a-zA-Z0-9\-]+$/', $organizerEmail)) {
             throw new \InvalidArgumentException('Invalid organizer email: ' . $organizerEmail);
         }
         $this->organizerName = $organizerName;
@@ -264,10 +261,7 @@ class VCalendar
         if (!in_array($role, array('CHAIR', 'REQ-PARTICIPANT', 'OPT-PARTICIPANT', 'NON-PARTICIPANT'))) {
             throw new \InvalidArgumentException('Invalid attendee role: ' . $role . '. Available only CHAIR / REQ-PARTICIPANT / OPT-PARTICIPANT / NON-PARTICIPANT');
         }
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            throw new \InvalidArgumentException('Invalid attendee email: ' . $email);
-        }
-        else if (preg_match('/@[a-zA-Z0-9\-]+$/', $email)) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false || preg_match('/@[a-zA-Z0-9\-]+$/', $email)) {
             throw new \InvalidArgumentException('Invalid attendee email: ' . $email);
         }
         if (!is_bool($rsvp)) {
