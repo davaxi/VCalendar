@@ -327,7 +327,7 @@ class VCalendar_Test extends PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testSeTtimeZoneInvalid()
+    public function testSetTimeZoneInvalid()
     {
         $expected = 'Invalid timezone';
         $this->VCalendar->setTimeZone($expected);
