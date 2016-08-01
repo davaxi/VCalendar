@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>VCalendar by davaxi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">VCalendar</h1>
+      <h2 class="project-tagline">PHP Class to generate VCalendar (ics) file (Compatible GMail)</h2>
+      <a href="https://github.com/davaxi/VCalendar" class="btn">View on GitHub</a>
+      <a href="https://github.com/davaxi/VCalendar/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/davaxi/VCalendar/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><a href="https://travis-ci.org/davaxi/VCalendar"><img src="https://travis-ci.org/davaxi/VCalendar.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/davaxi/vcalendar"><img src="https://poser.pugx.org/davaxi/vcalendar/version" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/davaxi/vcalendar"><img src="https://poser.pugx.org/davaxi/vcalendar/downloads" alt="Total Downloads"></a>
+<a href="//packagist.org/packages/davaxi/vcalendar"><img src="https://poser.pugx.org/davaxi/vcalendar/v/unstable" alt="Latest Unstable Version"></a>
+<a href="https://packagist.org/packages/davaxi/vcalendar"><img src="https://poser.pugx.org/davaxi/vcalendar/license" alt="License"></a>
+<a href="https://packagist.org/packages/davaxi/vcalendar"><img src="https://poser.pugx.org/davaxi/vcalendar/composerlock" alt="composer.lock available"></a></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>This page contains information about installing the Library for PHP.</p>
+
+<h3>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h3>
+
+<ul>
+<li>PHP version 5.3.0 or greater (including PHP 7)</li>
+</ul>
+
+<h3>
+<a id="obtaining-the-client-library" class="anchor" href="#obtaining-the-client-library" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Obtaining the client library</h3>
+
+<p>There are two options for obtaining the files for the client library.</p>
+
+<h4>
+<a id="using-composer" class="anchor" href="#using-composer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Composer</h4>
+
+<p>You can install the library by adding it as a dependency to your composer.json.</p>
+
+<pre><code>  "require": {
+    "davaxi/vcalendar": "^1.0"
+  }
+</code></pre>
+
+<h4>
+<a id="cloning-from-github" class="anchor" href="#cloning-from-github" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cloning from GitHub</h4>
+
+<p>The library is available on <a href="https://github.com/davaxi/VCalendar">GitHub</a>. You can clone it into a local repository with the git clone command.</p>
+
+<pre><code>git clone https://github.com/davaxi/VCalendar.git
+</code></pre>
+
+<h3>
+<a id="what-to-do-with-the-files" class="anchor" href="#what-to-do-with-the-files" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What to do with the files</h3>
+
+<p>After obtaining the files, ensure they are available to your code. If you're using Composer, this is handled for you automatically. If not, you will need to add the <code>autoload.php</code> file inside the client library.</p>
+
+<pre><code>require '/path/to/vcalendar/folder/autoload.php';
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">'</span>/path/to/vcalendar/folder/autoload.php<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Davaxi\</span><span class="pl-c1">VCalendar</span>();</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setProcess(<span class="pl-s"><span class="pl-pds">'</span>Davaxi<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Davaxi Events<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>v1.0<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>EN<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setMethod(<span class="pl-s"><span class="pl-pds">'</span>PUBLISH<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setCalendarName(<span class="pl-s"><span class="pl-pds">'</span>Events - Davaxi<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setTimeZone(<span class="pl-s"><span class="pl-pds">'</span>Europe/Paris<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setStartDateTime(<span class="pl-s"><span class="pl-pds">'</span>2016-06-10 10:00:00<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setEndDateTime(<span class="pl-s"><span class="pl-pds">'</span>2016-06-10 14:00:00<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setStatus(<span class="pl-s"><span class="pl-pds">'</span>CONFIRMED<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setTitle(<span class="pl-s"><span class="pl-pds">'</span>My Event Title<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setDescription(<span class="pl-s"><span class="pl-pds">'</span>My Event Description<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setOrganizer(<span class="pl-s"><span class="pl-pds">'</span>Davaxi<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>root@domain.fr<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setClass(<span class="pl-s"><span class="pl-pds">'</span>PUBLIC<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setCreatedDateTime(<span class="pl-s"><span class="pl-pds">'</span>2016-06-01 00:00:00<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setLocation(<span class="pl-s"><span class="pl-pds">'</span>Paris<span class="pl-pds">'</span></span>, <span class="pl-c1">48.874086</span>, <span class="pl-c1">2.345640</span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setUrl(<span class="pl-s"><span class="pl-pds">'</span>https://www.domain.com/<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setSequence(<span class="pl-c1">4</span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setLastUpdatedDateTime(<span class="pl-s"><span class="pl-pds">'</span>2016-06-01 01:00:00<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setCategories(<span class="pl-c1">array</span>(<span class="pl-s"><span class="pl-pds">'</span>ENTERTAINMENT<span class="pl-pds">'</span></span>));</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setUID(<span class="pl-s"><span class="pl-pds">'</span>event_davaxi_1<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>addAttendee(<span class="pl-s"><span class="pl-pds">'</span>Guest<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>REQ-PARTICIPANT<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>guest@domain.com<span class="pl-pds">'</span></span>,<span class="pl-c1">false</span>);</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>stream();</span>
+<span class="pl-s1"><span class="pl-k">exit</span>();</span>
+<span class="pl-s1"></span></pre></div>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h2>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Filename for download stream</span></span>
+<span class="pl-s1"><span class="pl-smi">$event</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Davaxi\</span><span class="pl-c1">VCalendar</span>(<span class="pl-smi">$fileName</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>invite<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set process info</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setProcess(<span class="pl-smi">$processOwner</span>, <span class="pl-smi">$processName</span>, <span class="pl-smi">$processVersion</span>, <span class="pl-smi">$processLang</span>)</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set method (REQUEST / PUBLISH)</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setMethod(<span class="pl-smi">$method</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event calendar name</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setCalendarName(<span class="pl-smi">$calendarName</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event timezone</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setTimeZone(<span class="pl-smi">$timeZone</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event start datetime</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setStartDateTime(<span class="pl-smi">$startDateTime</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event end datetime</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setEndDateTime(<span class="pl-smi">$endDateTime</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event status (TENTATIVE / CONFIRMED / CANCELED) </span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setStatus(<span class="pl-smi">$status</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event title</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setTitle(<span class="pl-smi">$title</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event description</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setDescription(<span class="pl-smi">$description</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set organize info</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setOrganizer(<span class="pl-smi">$organizerName</span>, <span class="pl-smi">$organizerEmail</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event class (PUBLIC / PRIVATE / CONFIDENTIAL)</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setClass(<span class="pl-smi">$class</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event created datetime</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setCreatedDateTime(<span class="pl-smi">$createdDateTime</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event location </span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setLocation(<span class="pl-smi">$locationString</span>, <span class="pl-smi">$locationLat</span>, <span class="pl-smi">$locationLng</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event URL</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setUrl(<span class="pl-smi">$url</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set sequence</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setSequence(<span class="pl-smi">$sequence</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event last updated datetime</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setLastUpdatedDateTime(<span class="pl-smi">$lastUpdatedDateTime</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event categories</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setCategories(<span class="pl-smi">$categories</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Set event UID (for updates)</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>setUID(<span class="pl-smi">$UID</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Add attendee (types: CHAIR / REQ-PARTICIPANT / OPT-PARTICIPANT / NON-PARTICIPANT)</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>addAttendee(<span class="pl-smi">$name</span>, <span class="pl-smi">$type</span>, <span class="pl-smi">$email</span>, <span class="pl-smi">$rsvp</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// Stream file with header</span></span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>stream();</span>
+<span class="pl-s1"><span class="pl-c">// or get content</span></span>
+<span class="pl-s1"><span class="pl-smi">$content</span> <span class="pl-k">=</span> <span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>getContent();</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"></span></pre></div>
+
+<h2>
+<a id="integrate-with-phpmailer-with-gmail-direct-add-to-calendar-action" class="anchor" href="#integrate-with-phpmailer-with-gmail-direct-add-to-calendar-action" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Integrate with PHPMailer with GMail direct add to calendar action</h2>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$PHPMailer</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">PHPMailer</span>();</span>
+<span class="pl-s1"><span class="pl-smi">$VCalendar</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Davaxi\</span><span class="pl-c1">VCalendar</span>();</span>
+<span class="pl-s1"><span class="pl-c">// [...] Set VCalendar</span></span>
+<span class="pl-s1"><span class="pl-c">// [...] Configure PHPMailer</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$PHPMailer</span><span class="pl-k">-&gt;</span>addStringAttachment(</span>
+<span class="pl-s1">    <span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>getContent(),</span>
+<span class="pl-s1">    <span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>getFilename(),</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>base64<span class="pl-pds">'</span></span>,</span>
+<span class="pl-s1">    <span class="pl-smi">$VCalendar</span><span class="pl-k">-&gt;</span>getContentType(),</span>
+<span class="pl-s1">    <span class="pl-s"><span class="pl-pds">'</span>attachment<span class="pl-pds">'</span></span></span>
+<span class="pl-s1">);</span>
+<span class="pl-s1"><span class="pl-smi">$PHPMailer</span><span class="pl-k">-&gt;</span>Send();</span></pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/davaxi/VCalendar">VCalendar</a> is maintained by <a href="https://github.com/davaxi">davaxi</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
