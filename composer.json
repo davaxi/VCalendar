@@ -1,7 +1,7 @@
 {
   "name": "davaxi/vcalendar",
   "description": "PHP Class to generate VCalendar (ics) file",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "library",
   "keywords": [
     "outlook",
@@ -18,6 +18,12 @@
       "name": "David Patiashvili",
       "email": "stratagem.david@gmail.com",
       "homepage": "https://www.patiashvili.fr/",
+      "role": "Developer"
+    },
+    {
+      "name": "Francesco Lovecchio",
+      "email": "francescolovecchio97@gmail.com",
+      "homepage": "https://www.linkedin.com/in/francescolovecchio/",
       "role": "Developer"
     }
   ],

@@ -114,6 +114,11 @@ class VCalendar
     protected $lastUpdatedDatetime;
 
     /**
+     * @var boolean
+     */
+    protected $allDayEvent;
+
+    /**
      * @var integer
      */
     protected $startDateTime;
@@ -278,6 +283,14 @@ class VCalendar
 
     /**
      * @param $location
+     */
+    public function setLocationOnly($location)
+    {
+        $this->location = $location;
+    }
+
+    /**
+     * @param $location
      * @param $locationLat
      * @param $locationLng
      */
@@ -297,7 +310,18 @@ class VCalendar
             throw new \InvalidArgumentException('Invalid timeZone: ' . $timeZone);
         }
         $this->timeZone = $timeZone;
-    }
+    }    
+
+    /**
+     * @param $allDayEvent boolean
+     */
+    public function setAllDayEvent($allDayEvent){
+        if (!is_bool($allDayEvent)) {
+            throw new \InvalidArgumentException('Invalid boolean: ' . $allDayEvent);
+        }
+        $this->allDayEvent = $allDayEvent;
+
+    }    
 
     /**
      * @param $dateTime string
@@ -400,27 +424,40 @@ class VCalendar
         );
         $result[] = 'CALSCALE:GREGORIAN';
         $result[] = sprintf('METHOD:%s', $this->method);
-        $result[] = sprintf('X-WR-CALNAME:%s', $this->calendarName);
+
+        if(isset($this->calendarName) && trim($this->calendarName)!==''){
+            $result[] = sprintf('X-WR-CALNAME:%s', $this->calendarName);
+        }
         // https://msdn.microsoft.com/en-us/library/ee203486(v=exchg.80).aspx
         $result[] = 'X-MS-OLK-FORCEINSPECTOROPEN:TRUE';
-
-        $result[] = 'BEGIN:VTIMEZONE';
-        $result[] = sprintf('TZID:%s', $this->timeZone);
-        $result[] = sprintf('X-LIC-LOCATION:%s', $this->timeZone);
-        $result[] = 'END:VTIMEZONE';
+        if (!$this->allDayEvent) {
+            $result[] = 'BEGIN:VTIMEZONE';
+            $result[] = sprintf('TZID:%s', $this->timeZone);
+            $result[] = sprintf('X-LIC-LOCATION:%s', $this->timeZone);
+            $result[] = 'END:VTIMEZONE';
+        }
 
         $result[] = 'BEGIN:VEVENT';
         $result[] = sprintf('DTSTAMP:%sZ',
             $this->getDateTimeFormat($this->lastUpdatedDatetime)
         );
-        $result[] = sprintf('DTSTART;TZID=%s:%s',
-            $this->timeZone,
-            $this->getDateTimeFormat($this->startDateTime)
-        );
-        $result[] = sprintf('DTEND;TZID=%s:%s',
-            $this->timeZone,
-            $this->getDateTimeFormat($this->endDateTime)
-        );
+        if ($this->allDayEvent) {
+            $result[] = sprintf('DTSTART;VALUE=DATE:%s',
+                $this->getDateFormat($this->startDateTime)
+            );
+            $result[] = sprintf('DTEND;VALUE=DATE:%s',
+                $this->getDateFormat(strtotime('+1 day', $this->endDateTime))
+            );
+        } else {
+            $result[] = sprintf('DTSTART;TZID=%s:%s',
+                $this->timeZone,
+                $this->getDateTimeFormat($this->startDateTime)
+            );
+            $result[] = sprintf('DTEND;TZID=%s:%s',
+                $this->timeZone,
+                $this->getDateTimeFormat($this->endDateTime)
+            ); 
+        }
         $result[] = sprintf('STATUS:%s', $this->status);
         $result[] = sprintf('SUMMARY:%s', $this->getValue($this->title));
         $result[] = sprintf('DESCRIPTION:%s', $this->description);
@@ -430,7 +467,9 @@ class VCalendar
         );
         $result[] = sprintf('CLASS:%s', $this->class);
         $result[] = sprintf('CREATED:%sZ', $this->getDateTimeFormat($this->createdDateTime));
-        $result[] = sprintf('GEO:%s;%s', $this->locationLat, $this->locationLng);
+        if (isset($this->locationLat) && trim($this->locationLat)!=='' && isset($this->locationLng) && trim($this->locationLng)!=='') {
+            $result[] = sprintf('GEO:%s;%s', $this->locationLat, $this->locationLng);
+        }
         $result[] = sprintf('LOCATION:%s', $this->getValue($this->location));
         $result[] = sprintf('URL:%s', $this->getValue($this->url));
         $result[] = sprintf('SEQUENCE:%s', $this->sequence);
@@ -449,7 +488,7 @@ class VCalendar
         $result[] = 'END:VEVENT';
         $result[] = 'END:VCALENDAR';
 
-        return implode("\n", $result);
+        return implode("\r\n", $result);
     }
 
     /**
@@ -468,6 +507,15 @@ class VCalendar
     protected function getDateTimeFormat($dateTime)
     {
         return date('Ymd\THis', $dateTime);
+    }
+
+    /**
+     * @param $dateTime
+     * @return bool|string
+     */
+    protected function getDateFormat($dateTime)
+    {
+        return date('Ymd', $dateTime);
     }
 
     /**
