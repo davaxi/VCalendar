@@ -116,7 +116,7 @@ class VCalendar
     /**
      * @var boolean
      */
-    protected $allDayEvent;
+    protected $eventAllDay = false;
 
     /**
      * @var integer
@@ -157,7 +157,7 @@ class VCalendar
      */
     public function setCalendarName($calendarName)
     {
-        $this->calendarName = $calendarName;
+        $this->calendarName = trim($calendarName);
     }
 
     /**
@@ -283,22 +283,18 @@ class VCalendar
 
     /**
      * @param $location
-     */
-    public function setLocationOnly($location)
-    {
-        $this->location = $location;
-    }
-
-    /**
-     * @param $location
      * @param $locationLat
      * @param $locationLng
      */
-    public function setLocation($location, $locationLat, $locationLng)
+    public function setLocation($location, $locationLat = null, $locationLng = null)
     {
         $this->location = $location;
-        $this->locationLat = $locationLat;
-        $this->locationLng = $locationLng;
+        if ($locationLat) {
+            $this->locationLat = $locationLat;
+        }
+        if ($locationLng) {
+            $this->locationLng = $locationLng;
+        }    
     }
 
     /**
@@ -312,16 +308,10 @@ class VCalendar
         $this->timeZone = $timeZone;
     }    
 
-    /**
-     * @param $allDayEvent boolean
-     */
-    public function setAllDayEvent($allDayEvent){
-        if (!is_bool($allDayEvent)) {
-            throw new \InvalidArgumentException('Invalid boolean: ' . $allDayEvent);
-        }
-        $this->allDayEvent = $allDayEvent;
-
-    }    
+    public function hasEventAllDay()
+    {
+        $this->eventAllDay = true;
+    }
 
     /**
      * @param $dateTime string
@@ -403,6 +393,9 @@ class VCalendar
         $this->lastUpdatedDatetime = $dateTimeEpoch;
     }
 
+    /**
+     * @return string
+     */
     public function getContentType()
     {
         return 'application/ics; method=PUBLISH; charset=UTF-8';
@@ -425,12 +418,12 @@ class VCalendar
         $result[] = 'CALSCALE:GREGORIAN';
         $result[] = sprintf('METHOD:%s', $this->method);
 
-        if(isset($this->calendarName) && trim($this->calendarName)!==''){
+        if($this->calendarName){
             $result[] = sprintf('X-WR-CALNAME:%s', $this->calendarName);
         }
         // https://msdn.microsoft.com/en-us/library/ee203486(v=exchg.80).aspx
         $result[] = 'X-MS-OLK-FORCEINSPECTOROPEN:TRUE';
-        if (!$this->allDayEvent) {
+        if (!$this->eventAllDay) {
             $result[] = 'BEGIN:VTIMEZONE';
             $result[] = sprintf('TZID:%s', $this->timeZone);
             $result[] = sprintf('X-LIC-LOCATION:%s', $this->timeZone);
@@ -441,14 +434,15 @@ class VCalendar
         $result[] = sprintf('DTSTAMP:%sZ',
             $this->getDateTimeFormat($this->lastUpdatedDatetime)
         );
-        if ($this->allDayEvent) {
+        if ($this->eventAllDay) {
             $result[] = sprintf('DTSTART;VALUE=DATE:%s',
                 $this->getDateFormat($this->startDateTime)
             );
             $result[] = sprintf('DTEND;VALUE=DATE:%s',
                 $this->getDateFormat(strtotime('+1 day', $this->endDateTime))
             );
-        } else {
+        } 
+        else {
             $result[] = sprintf('DTSTART;TZID=%s:%s',
                 $this->timeZone,
                 $this->getDateTimeFormat($this->startDateTime)
