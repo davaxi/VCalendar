@@ -461,7 +461,7 @@ class VCalendar
         );
         $result[] = sprintf('CLASS:%s', $this->class);
         $result[] = sprintf('CREATED:%sZ', $this->getDateTimeFormat($this->createdDateTime));
-        if (isset($this->locationLat) && trim($this->locationLat)!=='' && isset($this->locationLng) && trim($this->locationLng)!=='') {
+        if (!is_null($this->locationLat) && !is_null($this->locationLng)) {
             $result[] = sprintf('GEO:%s;%s', $this->locationLat, $this->locationLng);
         }
         $result[] = sprintf('LOCATION:%s', $this->getValue($this->location));
