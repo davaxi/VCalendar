@@ -2,41 +2,32 @@
 
 namespace Davaxi;
 
+use Davaxi\VCalendar\_\Attendee;
+use Davaxi\VCalendar\_\File;
+use Davaxi\VCalendar\_\Location;
+use Davaxi\VCalendar\_\Moment;
+use Davaxi\VCalendar\_\Organizer;
+use Davaxi\VCalendar\_\Process;
+use Davaxi\VCalendar\_\TimeZone;
+
 /**
  * Class VCalendar
  * @package Davaxi
  */
 class VCalendar
 {
-    /**
-     * @var string
-     */
-    protected $filename;
+    use Attendee;
+    use File;
+    use Location;
+    use Moment;
+    use Organizer;
+    use Process;
+    use TimeZone;
 
     /**
      * @var string
      */
     protected $calendarName;
-
-    /**
-     * @var string
-     */
-    protected $processOwner;
-
-    /**
-     * @var string
-     */
-    protected $processName;
-
-    /**
-     * @var string
-     */
-    protected $processVersion;
-
-    /**
-     * @var string
-     */
-    protected $processLang;
 
     /**
      * @var integer
@@ -61,47 +52,12 @@ class VCalendar
     /**
      * @var string
      */
-    protected $organizerName;
-
-    /**
-     * @var string
-     */
-    protected $organizerEmail;
-
-    /**
-     * @var string
-     */
-    protected $location;
-
-    /**
-     * @var float
-     */
-    protected $locationLat;
-
-    /**
-     * @var float
-     */
-    protected $locationLng;
-
-    /**
-     * @var string
-     */
     protected $status;
 
     /**
      * @var array
      */
     protected $categories = array();
-
-    /**
-     * @var array
-     */
-    protected $attendees = array();
-
-    /**
-     * @var string
-     */
-    protected $timeZone;
 
     /**
      * @var integer
@@ -112,21 +68,6 @@ class VCalendar
      * @var integer
      */
     protected $lastUpdatedDatetime;
-
-    /**
-     * @var boolean
-     */
-    protected $eventAllDay = false;
-
-    /**
-     * @var integer
-     */
-    protected $startDateTime;
-
-    /**
-     * @var integer
-     */
-    protected $endDateTime;
 
     /**
      * @var string
@@ -161,14 +102,6 @@ class VCalendar
     }
 
     /**
-     * @return string
-     */
-    public function getFilename()
-    {
-        return sprintf('%s.ics', $this->filename);
-    }
-
-    /**
      * @param $url
      */
     public function setUrl($url)
@@ -177,33 +110,6 @@ class VCalendar
             throw new \InvalidArgumentException('Invalid url: ' . $url);
         }
         $this->url = $url;
-    }
-
-    /**
-     * @param $processOwner string
-     * @param $processName string
-     * @param $processVersion string
-     * @param $processLang string
-     */
-    public function setProcess($processOwner, $processName, $processVersion, $processLang)
-    {
-        $this->processOwner = $processOwner;
-        $this->processName = $processName;
-        $this->processVersion = $processVersion;
-        $this->processLang = $processLang;
-    }
-
-    /**
-     * @param $organizerName
-     * @param $organizerEmail
-     */
-    public function setOrganizer($organizerName, $organizerEmail)
-    {
-        if (filter_var($organizerEmail, FILTER_VALIDATE_EMAIL) === false || preg_match('/@[a-zA-Z0-9\-]+$/', $organizerEmail)) {
-            throw new \InvalidArgumentException('Invalid organizer email: ' . $organizerEmail);
-        }
-        $this->organizerName = $organizerName;
-        $this->organizerEmail = $organizerEmail;
     }
 
     /**
@@ -253,88 +159,6 @@ class VCalendar
     public function setSequence($sequence)
     {
         $this->sequence = $sequence;
-    }
-
-    /**
-     * @param $name string
-     * @param $role string
-     * @param $email string
-     * @param $rsvp boolean
-     */
-    public function addAttendee($name, $role, $email, $rsvp)
-    {
-        if (!in_array($role, array('CHAIR', 'REQ-PARTICIPANT', 'OPT-PARTICIPANT', 'NON-PARTICIPANT'))) {
-            throw new \InvalidArgumentException('Invalid attendee role: ' . $role . '. Available only CHAIR / REQ-PARTICIPANT / OPT-PARTICIPANT / NON-PARTICIPANT');
-        }
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false || preg_match('/@[a-zA-Z0-9\-]+$/', $email)) {
-            throw new \InvalidArgumentException('Invalid attendee email: ' . $email);
-        }
-        if (!is_bool($rsvp)) {
-            throw new \InvalidArgumentException('invalid RSVP value. Only boolean is accepted');
-        }
-
-        $this->attendees[] = array(
-            'name' => $name,
-            'role' => $role,
-            'email' => $email,
-            'rsvp' => $rsvp,
-        );
-    }
-
-    /**
-     * @param $location
-     * @param $locationLat
-     * @param $locationLng
-     */
-    public function setLocation($location, $locationLat = null, $locationLng = null)
-    {
-        $this->location = $location;
-        if ($locationLat) {
-            $this->locationLat = $locationLat;
-        }
-        if ($locationLng) {
-            $this->locationLng = $locationLng;
-        }    
-    }
-
-    /**
-     * @param $timeZone string
-     */
-    public function setTimeZone($timeZone)
-    {
-        if (!in_array($timeZone, timezone_identifiers_list())) {
-            throw new \InvalidArgumentException('Invalid timeZone: ' . $timeZone);
-        }
-        $this->timeZone = $timeZone;
-    }    
-
-    public function hasEventAllDay()
-    {
-        $this->eventAllDay = true;
-    }
-
-    /**
-     * @param $dateTime string
-     */
-    public function setStartDateTime($dateTime)
-    {
-        $dateTimeEpoch = strtotime($dateTime);
-        if (!$dateTimeEpoch) {
-            throw new \InvalidArgumentException('Invalid representation of start date time: ' . $dateTime);
-        }
-        $this->startDateTime = $dateTimeEpoch;
-    }
-
-    /**
-     * @param $dateTime string
-     */
-    public function setEndDateTime($dateTime)
-    {
-        $dateTimeEpoch = strtotime($dateTime);
-        if (!$dateTimeEpoch) {
-            throw new \InvalidArgumentException('Invalid representation of end date time: ' . $dateTime);
-        }
-        $this->endDateTime = $dateTimeEpoch;
     }
 
     /**
@@ -392,137 +216,4 @@ class VCalendar
         }
         $this->lastUpdatedDatetime = $dateTimeEpoch;
     }
-
-    /**
-     * @return string
-     */
-    public function getContentType()
-    {
-        return 'application/ics; method=PUBLISH; charset=UTF-8';
-    }
-
-    /**
-     * Based on https://en.wikipedia.org/wiki/ICalendar
-     * @return string
-     */
-    public function getContent()
-    {
-        $result[] = 'BEGIN:VCALENDAR';
-        $result[] = 'VERSION:2.0';
-        $result[] = sprintf("PRODID:-//%s//%s %s//%s",
-            $this->processOwner,
-            $this->processName,
-            $this->processVersion,
-            $this->processLang
-        );
-        $result[] = 'CALSCALE:GREGORIAN';
-        $result[] = sprintf('METHOD:%s', $this->method);
-
-        if($this->calendarName){
-            $result[] = sprintf('X-WR-CALNAME:%s', $this->calendarName);
-        }
-        // https://msdn.microsoft.com/en-us/library/ee203486(v=exchg.80).aspx
-        $result[] = 'X-MS-OLK-FORCEINSPECTOROPEN:TRUE';
-        if (!$this->eventAllDay) {
-            $result[] = 'BEGIN:VTIMEZONE';
-            $result[] = sprintf('TZID:%s', $this->timeZone);
-            $result[] = sprintf('X-LIC-LOCATION:%s', $this->timeZone);
-            $result[] = 'END:VTIMEZONE';
-        }
-
-        $result[] = 'BEGIN:VEVENT';
-        $result[] = sprintf('DTSTAMP:%sZ',
-            $this->getDateTimeFormat($this->lastUpdatedDatetime)
-        );
-        if ($this->eventAllDay) {
-            $result[] = sprintf('DTSTART;VALUE=DATE:%s',
-                $this->getDateFormat($this->startDateTime)
-            );
-            $result[] = sprintf('DTEND;VALUE=DATE:%s',
-                $this->getDateFormat(strtotime('+1 day', $this->endDateTime))
-            );
-        } 
-        else {
-            $result[] = sprintf('DTSTART;TZID=%s:%s',
-                $this->timeZone,
-                $this->getDateTimeFormat($this->startDateTime)
-            );
-            $result[] = sprintf('DTEND;TZID=%s:%s',
-                $this->timeZone,
-                $this->getDateTimeFormat($this->endDateTime)
-            ); 
-        }
-        $result[] = sprintf('STATUS:%s', $this->status);
-        $result[] = sprintf('SUMMARY:%s', $this->getValue($this->title));
-        $result[] = sprintf('DESCRIPTION:%s', $this->description);
-        $result[] = sprintf('ORGANIZER;CN=%s:MAILTO:%s',
-            $this->getValue($this->organizerName),
-            $this->getValue($this->organizerEmail)
-        );
-        $result[] = sprintf('CLASS:%s', $this->class);
-        $result[] = sprintf('CREATED:%sZ', $this->getDateTimeFormat($this->createdDateTime));
-        if (!is_null($this->locationLat) && !is_null($this->locationLng)) {
-            $result[] = sprintf('GEO:%s;%s', $this->locationLat, $this->locationLng);
-        }
-        $result[] = sprintf('LOCATION:%s', $this->getValue($this->location));
-        $result[] = sprintf('URL:%s', $this->getValue($this->url));
-        $result[] = sprintf('SEQUENCE:%s', $this->sequence);
-        $result[] = sprintf('LAST-MODIFIED:%sZ', $this->getDateTimeFormat($this->lastUpdatedDatetime));
-        $result[] = sprintf('CATEGORIES:%s', implode(', ', $this->categories));
-
-        foreach ($this->attendees as $attendee) {
-            $result[] = sprintf('ATTENDEE;ROLE=%s;CN=%s:MAILTO:%s',
-                $attendee['role'],
-                $attendee['name'],
-                $attendee['email']
-            );
-        }
-        $result[] = "TRANSP:OPAQUE";
-        $result[] = sprintf('UID:%s', $this->uid);
-        $result[] = 'END:VEVENT';
-        $result[] = 'END:VCALENDAR';
-
-        return implode("\r\n", $result);
-    }
-
-    /**
-     * @param $value
-     * @return string
-     */
-    protected function getValue($value)
-    {
-        return addcslashes($value, ',;');
-    }
-
-    /**
-     * @param $dateTime
-     * @return bool|string
-     */
-    protected function getDateTimeFormat($dateTime)
-    {
-        return date('Ymd\THis', $dateTime);
-    }
-
-    /**
-     * @param $dateTime
-     * @return bool|string
-     */
-    protected function getDateFormat($dateTime)
-    {
-        return date('Ymd', $dateTime);
-    }
-
-    /**
-     * Stream file
-     */
-    public function stream()
-    {
-        header("Content-type: application/ics; method=PUBLISH; charset=UTF-8");
-        header(sprintf("Content-Disposition: attachment; filename=%s", $this->getFilename()));
-        header("Pragma: no-cache");
-        header("Expires: 0");
-
-        echo $this->getContent();
-    }
-
 }

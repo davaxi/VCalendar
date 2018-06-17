@@ -5,7 +5,6 @@ addons:
         repo_token: 02a0ba65aadd8a06018c159e62451497075e5a28ef2e8a775ff3cb1c736e7045
 
 php:
-    - 5.3
     - 5.4
     - 5.5
     - 5.6

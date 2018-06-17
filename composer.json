@@ -33,10 +33,10 @@
   },
   "minimum-stability": "stable",
   "require": {
-    "php": ">=5.3.0"
+    "php": ">=5.4.0"
   },
   "require-dev": {
-    "php": ">=5.3.0",
+    "php": ">=5.4.0",
     "codeclimate/php-test-reporter": "dev-master"
   },
   "autoload": {
