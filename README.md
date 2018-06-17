@@ -101,6 +101,9 @@ $VCalendar->setCalendarName($calendarName);
 // Set event timezone
 $VCalendar->setTimeZone($timeZone);
 
+// If Event on all day
+$VCalendar->hasEventAllDay();
+
 // Set event start datetime
 $VCalendar->setStartDateTime($startDateTime);
 
